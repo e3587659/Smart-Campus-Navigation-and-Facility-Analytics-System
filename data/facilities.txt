@@ -10,8 +10,3 @@ F008|Fitness Center|Gym|Recreation
 F009|Room 205|Science Building|Classroom
 F010|Research Help Desk|Library|Library
 
-
-X999|Bad ID Test|Library|Test          # Should fail (ID doesn't start with F or have 3 digits)
-F011|Fake Building Test|UnknownBuilding|Test # Should fail (Building not in buildings.txt)
-F001|Duplicate ID Test|Library|Test        # Should fail (F001 already exists)
-F012||Library|Empty Name Test             # Should fail (Empty name)
