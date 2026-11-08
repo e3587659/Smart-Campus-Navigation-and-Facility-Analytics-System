@@ -1,0 +1,7 @@
+Member A (Mia Mendez) Test Results- 
+
+1: Loaded the 10 facilities needed succesfully 
+2: Found the errror in tested facility number "F999" and also out the facility number F001 when ID searched
+3:Found the facility when the name was input without errors
+4:Showed the collision count correctly and generated a category report
+5:showed the "Goodbye" text to close the program
