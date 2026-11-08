@@ -5,7 +5,7 @@
 #include "FacilityManager.h"
 
 void displayMenu() {
-    std::cout << "\n=== Smart Campus Navigation & Facility Analytics (Member A Module) ===\n";
+    std::cout << "\n=== Smart Campus Navigation & Facility Analytics (Member A) ===\n";
     std::cout << "1. View all facilities\n";
     std::cout << "2. Search facility by ID\n";
     std::cout << "3. Search facility by Name\n";
@@ -18,16 +18,19 @@ int main() {
     FacilityHashTable facilityTable;
     std::unordered_set<std::string> acceptedBuildings;
 
-std::ifstream bFile("data/buildings.txt");
+    // Load accepted buildings from data/buildings.txt
+    std::ifstream bFile("data/buildings.txt");
     if (bFile.is_open()) {
         std::string line;
         while (std::getline(bFile, line)) {
+            // Trim or ignore comment lines
             if (!line.empty() && line[0] != '#') {
                 acceptedBuildings.insert(line);
             }
         }
         bFile.close();
     } else {
+        std::cout << "Warning: Could not open data/buildings.txt. Using default building fallback list.\n";
         acceptedBuildings.insert("Library");
         acceptedBuildings.insert("Student Union");
         acceptedBuildings.insert("Science Building");
@@ -37,6 +40,7 @@ std::ifstream bFile("data/buildings.txt");
         acceptedBuildings.insert("Observatory");
     }
 
+    // Load facilities from data/facilities.txt
     facilityTable.loadFacilities("data/facilities.txt", acceptedBuildings);
 
     int choice = 0;
@@ -49,7 +53,7 @@ std::ifstream bFile("data/buildings.txt");
             continue;
         }
 
-switch (choice) {
+        switch (choice) {
             case 1: {
                 facilityTable.printAllFacilities();
                 break;
@@ -72,7 +76,7 @@ switch (choice) {
             }
             case 3: {
                 std::string searchName;
-                std::cout << "Enter Facility Name (e.g., Room 101): ";
+                std::cout << "Enter Facility Name (e.g., Main Reading Room): ";
                 std::cin.ignore();
                 std::getline(std::cin, searchName);
                 facilityTable.searchByName(searchName);
@@ -86,7 +90,7 @@ switch (choice) {
                 std::cout << "Exiting program. Goodbye!\n";
                 break;
             default:
-                std::cout << "Out of range. Please choose between 1 and 5.\n";
+                std::cout << "Out of range. Please choose a number between 1 and 5.\n";
         }
     } while (choice != 5);
 
