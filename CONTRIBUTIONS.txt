@@ -1,17 +1,27 @@
 Project 2: Smart Campus Navigation & Facility Analytics
 Member A Contributions Report
 
+
 Name: Mia Mendez
 Role: Member A - Facility Management & Hash Table Analytics
 
 Contributions:
-
 - Built the custom hash table, as well as the facility data structure
-
 - Made the file reader and tested it to see if invalid data would go through and output an error.
-
 - Implemented a feature to do name searches as well as search for IDs
-
 - Created the category report function
-
 - Added to the main menu and conducted testing.
+
+
+Member B Contributions Report
+
+Name: Mike Romero  
+Role: Member B - Campus Graph & Navigation
+
+Contributions:
+-Built the campus graph to store buildings and their connections.
+-Made a function to find which buildings can be reached using BFS.
+-Created a function to find the shortest path between buildings.
+-Built a connectivity report to show building connections and isolated buildings.
+-Added my features to the main menu and connected the building data files.
+-Tested my functions to make sure they worked correctly and pushed everything to GitHub.
