@@ -1,10 +1,13 @@
-Project 2: Member A - Mia Mendez
+Project 2: Design Document - Member A (Mia Mendez)
 
 When creating the facility structure, it was made to store the basic inputs such as the ID, name, and building when using the program. 
+
 The custom hash table linked list helps to identify any collisions that may have occurred and helps to mitigate them.
 
 Facilities.txt and building.txt are tested with the file validation to see if they are associated with building names.
+
 The file validation also finds the errors where invalid IDs were placed or any other errors found.
 
 The ID search was made to make it easier to find the ID of the facilities, as well as help match the name of the facilities with the name that is input.
+
 The report was added to show the percentages, items that were valid, any collisions found, and the category count and anything else found in the processing.
