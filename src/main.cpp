@@ -49,3 +49,46 @@ std::ifstream bFile("data/buildings.txt");
             continue;
         }
 
+switch (choice) {
+            case 1: {
+                facilityTable.printAllFacilities();
+                break;
+            }
+            case 2: {
+                std::string searchID;
+                std::cout << "Enter Facility ID (e.g., F001): ";
+                std::cin >> searchID;
+                Facility* found = facilityTable.searchByID(searchID);
+                if (found) {
+                    std::cout << "\nFound Facility:\n"
+                              << "ID: " << found->id << "\n"
+                              << "Name: " << found->name << "\n"
+                              << "Building: " << found->building << "\n"
+                              << "Category: " << found->category << "\n";
+                } else {
+                    std::cout << "\nFacility ID not found.\n";
+                }
+                break;
+            }
+            case 3: {
+                std::string searchName;
+                std::cout << "Enter Facility Name (e.g., Room 101): ";
+                std::cin.ignore();
+                std::getline(std::cin, searchName);
+                facilityTable.searchByName(searchName);
+                break;
+            }
+            case 4: {
+                facilityTable.printCategoryReport();
+                break;
+            }
+            case 5:
+                std::cout << "Exiting program. Goodbye!\n";
+                break;
+            default:
+                std::cout << "Out of range. Please choose between 1 and 5.\n";
+        }
+    } while (choice != 5);
+
+    return 0;
+}
