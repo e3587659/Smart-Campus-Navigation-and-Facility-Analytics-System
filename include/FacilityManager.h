@@ -10,6 +10,7 @@
 #include <cctype>
 #include <algorithm>
 #include <unordered_set>
+#include <iomanip>
 
 struct Facility {
     std::string id;
@@ -100,6 +101,57 @@ public:
         return true;
     }
 
+    bool loadFacilities(const std::string& filename, const std::unordered_set<std::string>& acceptedBuildings) {
+        std::ifstream file(filename);
+        if (!file.is_open()) {
+            std::cout << "Error: Could not open file " << filename << "\n";
+            return false;
+        }
+
+        std::string line;
+        int lineNumber = 0;
+        int acceptedCount = 0;
+
+        while (std::getline(file, line)) {
+            lineNumber++;
+            std::string trimmedLine = trim(line);
+            if (trimmedLine.empty() || trimmedLine[0] == '#') {
+                continue;
+            }
+
+            std::stringstream ss(trimmedLine);
+            std::string id, name, building, category;
+
+            if (std::getline(ss, id, '|') &&
+                std::getline(ss, name, '|') &&
+                std::getline(ss, building, '|') &&
+                std::getline(ss, category, '|')) {
+                
+                std::string extra;
+                if (std::getline(ss, extra)) {
+                    std::cout << "Warning [" << filename << ":" << lineNumber << "]: Too many fields. Record rejected.\n";
+                    continue;
+                }
+
+                Facility fac;
+                fac.id = trim(id);
+                fac.name = trim(name);
+                fac.building = trim(building);
+                fac.category = trim(category);
+
+                if (insert(fac, lineNumber, filename, acceptedBuildings)) {
+                    acceptedCount++;
+                }
+            } else {
+                std::cout << "Warning [" << filename << ":" << lineNumber << "]: Incorrect field count / delimiter error. Record rejected.\n";
+            }
+        }
+
+        file.close();
+        std::cout << "Loaded " << acceptedCount << " facilities successfully from " << filename << ".\n";
+        return true;
+    }
+
     void printAllFacilities() const {
         std::cout << "\n=== All Facilities ===\n";
         for (int i = 0; i < TABLE_SIZE; ++i) {
@@ -160,7 +212,21 @@ public:
 
         std::cout << "\n=== Facility Category Report ===\n";
         std::cout << "--------------------------------------------------------\n";
-        std::cout << "Category               | Count      | Percentage\n";
+        std::cout << std::left << std::setw(25) << "Category" 
+                  << std::left << std::setw(12) << "Count" 
+                  << "Percentage\n";
         std::cout << "--------------------------------------------------------\n";
 
-        for (
+        for (size_t i = 0; i < categories.size(); ++i) {
+            double percentage = (totalEntries > 0) ? (static_cast<double>(counts[i]) / totalEntries) * 100.0 : 0.0;
+            std::cout << std::left << std::setw(25) << categories[i]
+                      << std::left << std::setw(12) << counts[i]
+                      << std::fixed << std::setprecision(2) << percentage << "%\n";
+        }
+        std::cout << "--------------------------------------------------------\n";
+        std::cout << "Total Valid Facilities: " << totalEntries << "\n";
+        std::cout << "Hash Table Collisions: " << collisionCount << "\n";
+    }
+};
+
+#endif
