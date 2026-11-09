@@ -29,9 +29,14 @@ public:
     ~DepartmentTree();
 
     bool isEmpty() const;
-    bool addDepartment(const std::string& name, const std::string& parentName);
+    std::string addDepartment(const std::string& name, const std::string& parentName);
+
+    void loadFromFile(const std::string& path, const std::string& fileLabel);
+
+    void displaySearchResult(const std::string& name) const;
+    int getDepth(const DepartmentNode* node) const;
     DepartmentNode* search(const std::string& name) const;
-    
+
     void displayHierarchy() const;
     void displayHierarchyHelper(DepartmentNode* node, int depth) const;
 
