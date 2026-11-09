@@ -25,3 +25,26 @@ std::string toLowerStr(const std::string& s) {
 bool equalsIgnoreCase(const std::string& a, const std::string& b) {
     return toLowerStr(trim(a)) == toLowerStr(trim(b));
 }
+
+std::vector<std::string> splitPipe(const std::string& line) {
+    std::vector<std::string> fields;
+    std::string current;
+    for (char c : line) {
+        if (c == '|') {
+            fields.push_back(trim(current));
+            current.clear();
+        } else {
+            current += c;
+        }
+    }
+    fields.push_back(trim(current));
+    return fields;
+}
+
+bool isSkippableLine(const std::string& trimmedLine) {
+    return trimmedLine.empty() || trimmedLine[0] == '#';
+}
+
+void printWarning(const std::string& file, int lineNumber, const std::string& reason) {
+    std::cout << "Warning: " << file << " line " << lineNumber << ": " << reason << "\n";
+}
