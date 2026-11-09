@@ -1,7 +1,22 @@
-Member A (Mia Mendez) Test Results- 
+Milestone 1 Test Results
 
-1: Loaded the 10 facilities needed succesfully 
-2: Found the errror in tested facility number "F999" and also out the facility number F001 when ID searched
-3:Found the facility when the name was input without errors
-4:Showed the collision count correctly and generated a category report
-5:showed the "Goodbye" text to close the program
+#  | Input                  | Expected          | Actual            | Result
+1  | ./campus               | all files load    | all files load    | PASS
+2  | testdata/invalid       | bad lines warned  | bad lines warned  | PASS
+3  | testdata/missing       | error, no crash   | error, no crash   | PASS
+4  | duplicate ID f001      | rejected          | rejected          | PASS
+5  | search F001            | found             | found             | PASS
+6  | search f005            | found             | found             | PASS
+7  | search xyz             | invalid format    | invalid format    | PASS
+8  | search F999            | not found         | not found         | PASS
+9  | testdata/collision     | collisions 2      | collisions 2      | PASS
+10 | duplicate f033         | collisions stay 2 | collisions stay 2 | PASS
+11 | BFS library            | 6 of 7            | 6 of 7            | PASS
+12 | BFS observatory        | 1 of 7            | 1 of 7            | PASS
+13 | BFS Hospital           | error             | error             | PASS
+14 | add root, empty tree   | added as root     | added as root     | PASS
+15 | search Computer Science| depth 2           | depth 2           | PASS
+16 | add X under Nowhere    | rejected          | rejected          | PASS
+17 | preorder               | correct order     | correct order     | PASS
+18 | menu: abc, 42, blank   | error             | error             | PASS
+19 | 0                      | exits             | exits             | PASS
