@@ -25,3 +25,11 @@ private:
         std::string key;
         int index;
     };
+
+std::vector<std::list<Entry>> buckets;
+    int capacity;
+    int size;
+    int collisions;
+};
+
+#endif
