@@ -89,3 +89,30 @@ void FacilityManager::displayAll() const {
         std::cout << "No facilities are available.\nTotal facilities: 0\n";
         return;
     }
+
+std::cout << "\n=== All Facilities ===\n";
+    std::cout << "ID | Name | Building | Category\n";
+    for (const Facility& f : facilities) {
+        printFacility(f);
+    }
+    std::cout << "Total facilities: " << facilities.size() << "\n";
+}
+
+void FacilityManager::searchById(const std::string& input) const {
+    std::string id = toUpperStr(trim(input));
+
+    if (!isValidIdFormat(id)) {
+        std::cout << "Invalid ID format: '" << trim(input)
+                  << "'. IDs look like F001 (F followed by 3 digits).\n";
+        return;
+    }
+
+    int index = idTable.find(id);
+    if (index == -1) {
+        std::cout << "Facility not found: " << id << "\n";
+        return;
+    }
+
+    std::cout << "Facility found:\n";
+    printFacility(facilities[index]);
+}
