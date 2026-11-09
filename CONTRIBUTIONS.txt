@@ -27,7 +27,14 @@ Contributions:
 -Tested my functions to make sure they worked correctly and pushed everything to GitHub.
 
 
-Name: Marvelous
-Role: Member C
+Name: Marvelous 
+Role: Member C 
 
 Contributions:
+- Built the department tree.
+- Added loading of departments.txt.
+- Made add department and search department.
+- Made the hierarchy display and preorder traversal.
+
+Shared Work
+- main.cpp menu, FileHelp, test data, README, design document, test results
