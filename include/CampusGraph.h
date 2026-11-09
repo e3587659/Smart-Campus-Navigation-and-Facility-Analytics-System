@@ -1,22 +1,33 @@
 #ifndef CAMPUSGRAPH_H
 #define CAMPUSGRAPH_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 class CampusGraph {
-    private:
+private:
     std::vector<std::string> buildings;
     std::vector<std::vector<int>> adjacencyList;
     int edgeCount = 0;
 
-    public:
-    void addBuilding(std::string name);
-    void addConnection(std::string building1, std::string building2);
-    void displayAdjacencyList();
-    void displayReachableBuildings(std::string startBuilding);
-    void displayShortestPath(std::string startBuilding, std::string endBuilding);
-    void displayConnectivityReport();
+    int findIndex(const std::string& name) const;
+
+public:
+    void loadBuildings(const std::string& path, const std::string& fileLabel);
+    void loadConnections(const std::string& path, const std::string& fileLabel);
+
+    std::string addBuilding(const std::string& name);
+    std::string addConnection(const std::string& building1, const std::string& building2);
+
+    const std::vector<std::string>& getBuildings() const { return buildings; }
+
+    void displayAdjacencyList() const;
+    void displayCountsAndDegrees() const;
+    void displayReachableBuildings(const std::string& start) const;
+
+    void displayShortestPath(const std::string& startBuilding,
+                             const std::string& endBuilding) const;
+    void displayConnectivityReport() const;
 };
 
 #endif
