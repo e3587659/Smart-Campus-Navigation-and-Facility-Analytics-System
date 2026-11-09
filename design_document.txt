@@ -1,13 +1,44 @@
-Project 2: Design Document - Member A (Mia Mendez)
+Project 2 Design Document
 
-When creating the facility structure, it was made to store the basic inputs such as the ID, name, and building when using the program. 
+CLASSES USED
 
-The custom hash table linked list helps to identify any collisions that may have occurred and helps to mitigate them.
+Main.cpp was made to handle the loading of the files in the repository and run the menu.
 
-Facilities.txt and building.txt are tested with the file validation to see if they are associated with building names.
+FileHelp was made to trim spaces, change cases, and split lines when using '|'.
 
-The file validation also finds the errors where invalid IDs were placed or any other errors found.
+FacilityHashTable was made for facility IDs and searching.
 
-The ID search was made to make it easier to find the ID of the facilities, as well as help match the name of the facilities with the name that is input.
+FacilityManager keeps track of the facility data and the file reader. The manager checks if there is an error in the data and catches the errors with an explanation of each one.
 
-The report was added to show the percentages, items that were valid, any collisions found, and the category count and anything else found in the processing.
+CampusGraph helps to store buildings and their connections and uses BFS.
+
+DepartmentTree is the department hierarchy tree.
+
+HASH FUNCTION
+
+djb2: start at 5381, then for each character of the uppercase ID,
+hash = hash * 33 + character. Bucket = hash % capacity.
+
+COLLISION STRATEGY
+
+Separate chaining: the custom hash table uses a linked list in each bucket. We chose it because the lists can grow, so the table never fills up.
+
+CAPACITY
+
+101 buckets, set in FacilityHashTable::DEFAULT_CAPACITY.
+
+COLLISION COUNT
+
+A collision is counted when an accepted ID goes into a bucket that already has an entry. Invalid IDs and duplicate IDs are rejected first, so they are not counted. Test: F001, F033, and F065 share a bucket = 2 collisions.
+
+FILE VALIDATION
+
+Facilities must be associated with building names from buildings.txt. The file reader rejects invalid IDs, duplicates, unknown buildings, and lines with the wrong number of fields.
+
+GRAPH
+
+Adjacency list, because it grows as needed and keeps buildings and neighbors in insertion order. Each connection is stored on both buildings but counted once.
+
+TREE
+
+Each department has a parent pointer and a list of children, so a department can have any number of children.
