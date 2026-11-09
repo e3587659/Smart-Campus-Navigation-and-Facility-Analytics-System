@@ -63,3 +63,29 @@ void FacilityManager::load(const std::string& path, const std::string& fileLabel
                 reason = "unknown building '" + f[2] + "'";
             }
         }
+
+if (!reason.empty()) {
+            printWarning(fileLabel, lineNumber, reason);
+            rejected++;
+            continue;
+        }
+
+        Facility fac{toUpperStr(f[0]), f[1], officialBuilding, f[3]};
+        idTable.insert(fac.id, static_cast<int>(facilities.size()));
+        facilities.push_back(fac);
+        accepted++;
+    }
+
+    printSummary(fileLabel, accepted, rejected);
+}
+
+void FacilityManager::printFacility(const Facility& f) const {
+    std::cout << f.id << " | " << f.name << " | " << f.building
+              << " | " << f.category << "\n";
+}
+
+void FacilityManager::displayAll() const {
+    if (facilities.empty()) {
+        std::cout << "No facilities are available.\nTotal facilities: 0\n";
+        return;
+    }
