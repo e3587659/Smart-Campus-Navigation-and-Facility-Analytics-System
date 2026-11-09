@@ -25,3 +25,9 @@ Contributions:
 -Built a connectivity report to show building connections and isolated buildings.
 -Added my features to the main menu and connected the building data files.
 -Tested my functions to make sure they worked correctly and pushed everything to GitHub.
+
+
+Name: Marvelous
+Role: Member C
+
+Contributions:
