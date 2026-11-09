@@ -23,3 +23,23 @@ bool FacilityHashTable::insert(const std::string& id, int index) {
             return false;
         }
     }
+
+if (!bucket.empty()) {
+        collisions++;
+    }
+
+    bucket.push_back(Entry{key, index});
+    size++;
+    return true;
+}
+
+int FacilityHashTable::find(const std::string& id) const {
+    std::string key = toUpperStr(trim(id));
+    const std::list<Entry>& bucket = buckets[hash(key)];
+    for (const Entry& e : bucket) {
+        if (e.key == key) {
+            return e.index;
+        }
+    }
+    return -1;
+}
