@@ -1,0 +1,7 @@
+# Collision test: F001, F033, and F065 all hash to bucket 73 (capacity 101).
+# Line 5 is a duplicate of F033 in lowercase and must not change the collision count.
+F001|Main Reading Room|Library|Library
+F033|Quiet Study Room|Library|Study Space
+F065|Weight Room|Gym|Recreation
+f033|Duplicate Room|Library|Study Space
+F002|Tutoring Center|Library|Tutoring Center

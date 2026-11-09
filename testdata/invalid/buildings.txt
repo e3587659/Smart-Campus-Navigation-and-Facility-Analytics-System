@@ -1,0 +1,8 @@
+# BuildingName
+Library
+
+  Student Union  
+Gym
+LIBRARY
+Observatory
+Bad|Name

@@ -1,0 +1,9 @@
+# FacilityID|FacilityName|BuildingName|Category
+f001 |  Main Desk  | library | Service
+F001|Copy Room|Library|Service
+F002|Pool|Mars Hall|Recreation
+F003|Too Few|Gym
+F004|Too|Many|Gym|Fields
+F005||Gym|Recreation
+X99|Bad ID|Gym|Recreation
+F006|Room #1|Gym|Recreation

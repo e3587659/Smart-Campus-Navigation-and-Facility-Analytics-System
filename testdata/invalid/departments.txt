@@ -1,0 +1,8 @@
+# DepartmentName|ParentName
+University|NONE
+College of Science|University
+Physics|College of Nowhere
+college of science|University
+Math|College of Science
+Second Root|NONE
+No Parent Field

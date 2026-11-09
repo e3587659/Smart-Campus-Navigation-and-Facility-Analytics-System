@@ -1,0 +1,9 @@
+# BuildingA|BuildingB
+Library|Student Union
+Student Union|Library
+library|student union
+Gym|Gym
+Library|Mars Hall
+Library
+Student Union|Gym|Library
+Gym|Library
