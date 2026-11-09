@@ -1,4 +1,6 @@
 #include "DepartmentTree.h"
+#include "FileHelp.h"
+#include <fstream>
 #include <iostream>
 #include <queue>
 #include <algorithm>
@@ -22,14 +24,8 @@ bool DepartmentTree::isEmpty() const {
     return root == nullptr;
 }
 
-std::string normalizeString(const std::string& s) {
-    std::string res = "";
-    for (char c : s) {
-        if (!std::isspace(static_cast<unsigned char>(c))) {
-            res += std::tolower(static_cast<unsigned char>(c));
-        }
-    }
-    return res;
+static std::string normalizeString(const std::string& s) {
+    return toLowerStr(trim(s));
 }
 
 DepartmentNode* DepartmentTree::searchHelper(DepartmentNode* node, const std::string& name) const {
@@ -48,23 +44,87 @@ DepartmentNode* DepartmentTree::search(const std::string& name) const {
     return searchHelper(root, name);
 }
 
-bool DepartmentTree::addDepartment(const std::string& name, const std::string& parentName) {
-    if (name.empty()) return false;
-    
-    // Check if name already exists
-    if (search(name) != nullptr) return false;
+std::string DepartmentTree::addDepartment(const std::string& rawName, const std::string& rawParent) {
+    std::string name = trim(rawName);
+    std::string parentName = trim(rawParent);
+    if (name.empty()) return "empty department name";
+
+    if (search(name) != nullptr) return "duplicate department '" + name + "'";
 
     if (isEmpty()) {
         root = new DepartmentNode(name, nullptr);
-        return true;
+        return "";
     }
 
+    if (parentName.empty()) return "empty parent name";
     DepartmentNode* parentNode = search(parentName);
-    if (!parentNode) return false;
+    if (!parentNode) return "unknown parent '" + parentName + "'";
 
     DepartmentNode* newNode = new DepartmentNode(name, parentNode);
     parentNode->children.push_back(newNode);
-    return true;
+    return "";
+}
+
+void DepartmentTree::loadFromFile(const std::string& path, const std::string& fileLabel) {
+    std::ifstream in(path);
+    if (!in) {
+        std::cout << "Error: cannot open " << path << ". Treating it as empty.\n";
+        std::cout << "Loaded " << fileLabel << ": 0 accepted, 0 rejected\n";
+        return;
+    }
+
+    int accepted = 0, rejected = 0, lineNumber = 0;
+    std::string line;
+    while (std::getline(in, line)) {
+        lineNumber++;
+        std::string t = trim(line);
+        if (isSkippableLine(t)) continue;
+
+        std::vector<std::string> f = splitPipe(t);
+        std::string reason;
+        if (f.size() != 2) {
+            reason = "expected 2 fields but found " + std::to_string(f.size());
+        } else if (f[0].empty() || f[1].empty()) {
+            reason = "empty required field";
+        } else if (equalsIgnoreCase(f[1], "NONE")) {
+            if (!isEmpty()) reason = "root already exists; '" + f[0] + "' needs a parent";
+            else reason = addDepartment(f[0], "");
+        } else if (isEmpty()) {
+            reason = "unknown parent '" + f[1] + "'";
+        } else {
+            reason = addDepartment(f[0], f[1]);
+        }
+
+        if (reason.empty()) {
+            accepted++;
+        } else {
+            printWarning(fileLabel, lineNumber, reason);
+            rejected++;
+        }
+    }
+    std::cout << "Loaded " << fileLabel << ": " << accepted << " accepted, "
+              << rejected << " rejected\n";
+}
+
+int DepartmentTree::getDepth(const DepartmentNode* node) const {
+    int depth = 0;
+    while (node != nullptr && node->parent != nullptr) {
+        depth++;
+        node = node->parent;
+    }
+    return depth;
+}
+
+void DepartmentTree::displaySearchResult(const std::string& name) const {
+    DepartmentNode* node = search(name);
+    if (!node) {
+        std::cout << "Department not found: " << trim(name) << "\n";
+        return;
+    }
+    std::cout << "Department: " << node->name << "\n";
+    std::cout << "Parent: " << (node->parent ? node->parent->name : "None") << "\n";
+    std::cout << "Direct children: " << node->children.size() << "\n";
+    std::cout << "Depth: " << getDepth(node) << "\n";
 }
 
 void DepartmentTree::displayHierarchyHelper(DepartmentNode* node, int depth) const {
@@ -102,9 +162,8 @@ void DepartmentTree::preorderTraversal() const {
     std::vector<std::string> seq;
     preorderHelper(root, seq);
     for (size_t i = 0; i < seq.size(); ++i) {
-        std::cout << seq[i] << (i + 1 < seq.size() ? " " : "");
+        std::cout << seq[i] << "\n";
     }
-    std::cout << "\n";
 }
 
 void DepartmentTree::postorderHelper(DepartmentNode* node, std::vector<std::string>& seq) const {
@@ -123,9 +182,8 @@ void DepartmentTree::postorderTraversal() const {
     std::vector<std::string> seq;
     postorderHelper(root, seq);
     for (size_t i = 0; i < seq.size(); ++i) {
-        std::cout << seq[i] << (i + 1 < seq.size() ? " " : "");
+        std::cout << seq[i] << "\n";
     }
-    std::cout << "\n";
 }
 
 void DepartmentTree::levelOrderTraversal() const {
@@ -147,9 +205,8 @@ void DepartmentTree::levelOrderTraversal() const {
     }
 
     for (size_t i = 0; i < seq.size(); ++i) {
-        std::cout << seq[i] << (i + 1 < seq.size() ? " " : "");
+        std::cout << seq[i] << "\n";
     }
-    std::cout << "\n";
 }
 
 int DepartmentTree::calculateHeight(DepartmentNode* node) const {
